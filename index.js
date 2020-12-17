@@ -1,10 +1,11 @@
 const express = require('express')
-const passport = require('passport')
-const GoogleStrategy = require('passport-google-oauth20').Strategy
+require('./services/passport')
+const mongoose = require('mongoose')
+const keys = require('./config/keys')
 
+mongoose.connect(keys.mongoURI)
 const app = express()
-
-passport.use(new GoogleStrategy())
+require('./routes/authRoutes')(app)
 
 const PORT = process.env.PORT || 5000
 

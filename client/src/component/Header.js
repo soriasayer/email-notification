@@ -4,7 +4,7 @@ const Header = () => {
   return (
      <nav>
       <div className="nav-wrapper">
-        <a href="#" className="left brand-logo">Feedback</a>
+        <a className="left brand-logo">Feedback</a>
         <ul id="nav-mobile" className="right">
           <li><a>Login With Google</a></li>
         </ul>

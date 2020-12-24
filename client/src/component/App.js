@@ -1,8 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
+import * as actions from '../actions'
 import Header from './Header'
 
-const App = () => {
+const App = ({fetchUser}) => {
+
+  useEffect(() => {
+   fetchUser()
+  })
+
   return (
     <div className='container'>
      <BrowserRouter>
@@ -14,4 +21,4 @@ const App = () => {
   )
 }
 
-export default App
+export default connect(null, actions)(App)

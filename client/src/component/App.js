@@ -5,6 +5,7 @@ import * as actions from '../actions'
 import Dashboard from './Dashboard'
 import Header from './Header'
 import Landing from './Landing'
+import SurveyNew from './surveys/SurveyNew'
 
 const App = ({fetchUser}) => {
 
@@ -18,7 +19,8 @@ const App = ({fetchUser}) => {
       <div>
         <Header/>
         <Route exact path='/' component={Landing}/>
-        <Route path='/surveys' component={Dashboard}/>
+        <Route exact path='/surveys' component={Dashboard}/>
+        <Route path='/surveys/new' component={SurveyNew}/>
       </div>
      </BrowserRouter>
     </div>

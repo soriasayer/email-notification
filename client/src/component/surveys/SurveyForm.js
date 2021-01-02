@@ -2,6 +2,7 @@ import _ from 'lodash'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Field, reduxForm } from 'redux-form'
+import validateEmails from "../../utils/validateEmails"
 import SurveyField from './SurveyField'
 
 const FIELDS = [
@@ -51,6 +52,8 @@ const validate = values => {
       errors[name] = 'You must provide a value'
     }
   })
+
+  errors.emails = validateEmails(values.emails || '')
 
   return errors
 }

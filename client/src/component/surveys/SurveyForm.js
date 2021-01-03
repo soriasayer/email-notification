@@ -30,7 +30,7 @@ const SurveyForm = ({handleSubmit, onSurveySubmit}) => {
         </Link>
         <button type='submit' className='teal btn-flat right white-text'>
           Next
-          <i className='material-icons right'>done</i>
+          <i className='material-icons right'>chevron_right</i>
         </button>
       </form>
     </div>
@@ -46,7 +46,7 @@ const validate = values => {
     }
   })
 
-  errors.emails = validateEmails(values.emails || '')
+  errors.recipients = validateEmails(values.recipients || '')
 
   return errors
 }

@@ -15,22 +15,35 @@ module.exports = app => {
   })
 
   app.post('/api/surveys/webhooks', (req, res) => {
-    const events = _.map(req.body, ({email, url}) => {
-      const pathname = new URL(url).pathname
-      const p = new Path('/api/surveys/:surveyId/:choice')
-      const match = p.test(pathname)
-      if(match) {
-        const {surveyId, choice} = match
-        return {email, surveyId, choice}
-      }
-    })
+    const p = new Path('/api/surveys/:surveyId/:choice')
 
-    // removes all undefinds
-    const compactEvents = _.compact(events)
-    // extract uniq elements
-    const uniqueEvents = _.uniqBy(compactEvents, 'email', 'surveyId')
-    console.log(uniqueEvents)
-    res.send({})
+    // chaining diffirent methodes on an array
+    _.chain(req.body)
+      .map(({email, url}) => {
+        const match = p.test(new URL(url).pathname)
+        if(match) {
+          const {surveyId, choice} = match
+          return {email, surveyId, choice}
+        }
+      })
+      // removes all undefinds
+      .compact()
+      // extract uniq elements
+      .uniqBy('email', 'surveyId')
+      // it returns the end value
+      .each(({surveyId, email, choice}) => {
+        Survey.updateOne({
+          _id: surveyId,
+          recipients: {
+            $elemMatch: {email, responded: false}
+          }
+        }, {
+          $inc: { [choice]: 1 },
+          $set: { 'recipients.$.responded': true }
+        }).exec()
+      })
+      .value()
+      res.send({})
   })
 
   app.post('/api/surveys', requireLogin, requiredCredits, async(req, res) => {
